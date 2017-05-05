@@ -1,17 +1,17 @@
-shell-novice
+shell-humanities
 ============
 
 An introduction to the Unix shell for people who have never used the command line before.
-Please see <https://swcarpentry.github.io/shell-novice/> for a rendered version of this material,
-[the lesson template documentation][lesson-example]
-for instructions on formatting, building, and submitting material,
-or run `make` in this directory for a list of helpful commands.
+This lesson is under development and is not complete.
 
-Maintainers:
+This lesson is inspired by but is not an official Data Carpentry lesson.
 
-* [Gabriel Devenyi][devenyi_gabriel]
-* [Ashwin Srinath][srinath_ashwin]
+Please see our [contribution guidelines](CONTRIBUTING.md) for information
+on how to contribute updates, bug fixes, or other corrections.
 
-[devenyi_gabriel]: http://software-carpentry.org/team/#devenyi_gabriel
-[srinath_ashwin]: http://software-carpentry.org/team/#srinath_ashwin
-[lesson-example]: https://swcarpentry.github.io/lesson-example/
+### Acknowledgement
+
+This lesson was was modified from the [Software Carpentry shell
+lesson](https://softwarecarpentry.github.io/shell-novice) which was
+developed by these
+[Authors](https://github.com/softwarecarpentry/shell-novice/blob/gh-pages/AUTHORS)

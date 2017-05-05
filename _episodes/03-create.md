@@ -22,7 +22,7 @@ keypoints:
 
 We now know how to explore files and directories,
 but how do we create them in the first place?
-Let's go back to our `data-shell` directory on the Desktop
+Let's go back to our `humanities_data` directory on the Desktop
 and use `ls -F` to see what it contains:
 
 ~~~
@@ -31,7 +31,7 @@ $ pwd
 {: .bash}
 
 ~~~
-/Users/nelle/Desktop/data-shell
+/Users/nelle/Desktop/humanities_data
 ~~~
 {: .output}
 
@@ -41,9 +41,8 @@ $ ls -F
 {: .bash}
 
 ~~~
-creatures/  molecules/           pizza.cfg
-data/       north-pacific-gyre/  solar.pdf
-Desktop/    notes.txt            writing/
+cushman_encoded.csv         photos
+survey_data_humanities_cleaned.csv  survey_data_humanities_messy.xls
 ~~~
 {: .output}
 
@@ -67,10 +66,8 @@ $ ls -F
 {: .bash}
 
 ~~~
-creatures/  north-pacific-gyre/  thesis/
-data/       notes.txt            writing/
-Desktop/    pizza.cfg
-molecules/  solar.pdf
+cushman_encoded.csv         photos
+survey_data_humanities_cleaned.csv  survey_data_humanities_messy.xls    thesis
 ~~~
 {: .output}
 
@@ -220,7 +217,7 @@ $ ls
 {: .callout}
 
 Let's re-create that file
-and then move up one directory to `/Users/nelle/Desktop/data-shell` using `cd ..`:
+and then move up one directory to `/Users/nelle/Desktop/humanities_data` using `cd ..`:
 
 ~~~
 $ pwd
@@ -228,7 +225,7 @@ $ pwd
 {: .bash}
 
 ~~~
-/Users/nelle/Desktop/data-shell/thesis
+/Users/nelle/Desktop/humanities_data/thesis
 ~~~
 {: .output}
 
@@ -300,7 +297,7 @@ $ pwd
 {: .bash}
 
 ~~~
-/Users/nelle/Desktop/data-shell
+/Users/nelle/Desktop/humanities_data
 ~~~
 {: .output}
 
@@ -446,6 +443,75 @@ but it does find the copy in `thesis` that we didn't delete.
 > cause the operating system to try to open it with a music player
 > when someone double-clicks it.
 {: .callout}
+
+### Nelle's Pipeline: Organizing Files
+
+Knowing just this much about files and directories,
+Now we're going organize her images.
+First,
+go to the photos directory `photos`
+Inside that,
+create a directory called `1939-09-03`,
+which is the archive date of photos P1411 - P1419.
+She used to use names like `conference-paper` and `revised-results`,
+but she found them hard to understand after a couple of years.
+(The final straw was when she found herself creating
+a directory called `revised-revised-results-3`.)
+
+> ## Sorting Output
+>
+> Nelle names her directories "year-month-day",
+> with leading zeroes for months and days,
+> because the shell displays file and directory names in alphabetical order.
+> If she used month names,
+> December would come before July;
+> if she didn't use leading zeroes,
+> November ('11') would come before July ('7'). Similarly, putting the year
+> first
+> means that June 2012 will come before June 2013.
+{: .callout}
+
+Each of the photos is labelled according to its archival ID number
+that was assigned when the images were processed,
+such as "1411". Move the appropriate images into the date directory.
+
+Add additonal metadata to the file names more descriptive.
+Let's say we're interested in catagorizing the images by whether
+they were origionally mounted in a glass enclosure.  This
+is noted in the slide condition field.  You would want to automate 
+this labeling if you were actually doing this, but mor now we're going to
+be doing it by hand.  We'll add the letter 'G' to slides that had the enclosuer
+and 'N' if they did not.  We'll use 'X' instead if there was uneven dye fading.
+1411,1143,1148,1149 get G
+1142 gets X
+Everything else gets N
+
+Now in her current directory `data-humanities`,
+Nelle can see what files she has using the command:
+
+~~~
+$ ls photos/1939-09-03/
+~~~
+{: .bash}
+
+This is a lot to type,
+but she can let the shell do most of the work through what is called **tab
+completion**.
+If she types:
+
+~~~
+$ ls nor
+~~~
+{: .bash}
+
+and then presses tab (the tab key on her keyboard),
+the shell automatically completes the directory name for her:
+
+~~~
+$ ls photos/
+~~~
+{: .bash}
+
 
 > ## Renaming Files
 >

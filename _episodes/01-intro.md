@@ -100,37 +100,23 @@ to tackle a wide range of scientific questions and computational challenges.
 
 ## Nelle's Pipeline: Starting Point
 
-Nelle Nemo, a marine biologist,
-has just returned from a six-month survey of the
-[North Pacific Gyre](http://en.wikipedia.org/wiki/North_Pacific_Gyre),
-where she has been sampling gelatinous marine life in the
-[Great Pacific Garbage Patch](http://en.wikipedia.org/wiki/Great_Pacific_Garbage_Patch).
-She has 1520 samples in all and now needs to:
+Nelle has 1520 images from the Cushman Collection and now needs to:
 
-1.  Run each sample through an assay machine
-    that will measure the relative abundance of 300 different proteins.
-    The machine's output for a single sample is
-    a file with one line for each protein.
-2.  Calculate statistics for each of the proteins separately
-    using a program her supervisor wrote called `goostat`.
-3.  Compare the statistics for each protein
-    with corresponding statistics for each other protein
-    using a program one of the other graduate students wrote called `goodiff`.
+1.  Calculate statictics for each image  separately
+    using a program her supervisor wrote called `imagestat`.
+3.  Compare the statistics for each image
+    with corresponding statistics for each other image
+    using a program one of the other graduate students wrote called `imagediff`.
 4.  Write up results.
     Her supervisor would really like her to do this by the end of the month
-    so that her paper can appear in an upcoming special issue of *Aquatic Goo Letters*.
+    so that her paper can appear in an upcoming special issue of *Image Letters*.
 
-It takes about half an hour for the assay machine to process each sample.
-The good news is that
-it only takes two minutes to set each one up.
-Since her lab has eight assay machines that she can use in parallel,
-this step will "only" take about two weeks.
-
-The bad news is that if she has to run `goostat` and `goodiff` by hand,
+If Nelle has to run `imagestat` and `imagediff` by hand,
 she'll have to enter filenames and click "OK" 46,370 times
-(1520 runs of `goostat`, plus 300*299/2 (half of 300 times 299) runs of `goodiff`).
+(1520 runs of `imagestat`, plus 300*299/2 (half of 300 times 299) runs of
+`imagediff`).
 At 30 seconds each,
-that will take more than two weeks.
+that will take more than nine weeks.
 Not only would she miss her paper deadline,
 the chances of her typing all of those commands right are practically zero.
 

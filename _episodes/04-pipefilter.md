@@ -396,182 +396,81 @@ so that you and other people can put those programs into pipes to multiply their
 
 ## Nelle's Pipeline: Checking Files
 
-Nelle has run her samples through the assay machines
-and created 1520 files in the `north-pacific-gyre/2012-07-03` directory described earlier.
-As a quick sanity check, starting from her home directory, Nelle types:
+
+We want to check the dimensions of our image files
+The 'file' command gives us information about files
 
 ~~~
-$ cd north-pacific-gyre/2012-07-03
-$ wc -l *.txt
+$ cd ../photos
+$ file *.jpg
 ~~~
 {: .bash}
 
 The output is 1520 lines that look like this:
 
 ~~~
-300 NENE01729A.txt
-300 NENE01729B.txt
-300 NENE01736A.txt
-300 NENE01751A.txt
-300 NENE01751B.txt
-300 NENE01812A.txt
+1411.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x678, frames 3
+1412.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x700, frames 3
+1413.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x680, frames 3
+1414.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x704, frames 3
+1415.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x696, frames 3
+1416.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x697, frames 3
+1417.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x692, frames 3
+1418.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x679, frames 3
+1419.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 1000x684, frames 3
+1420.jpg: JPEG image data, JFIF standard 1.01, aspect ratio, density 1x1,
+segment length 16, baseline, precision 8, 699x1000, frames 3
 ... ...
 ~~~
 {: .output}
 
-Now she types this:
+We can use the awk command to segment a response by a separator
 
 ~~~
-$ wc -l *.txt | sort -n | head -n 5
+$ echo "1,2,3" | awk -F "," '{print $3,$1}'
 ~~~
 {: .bash}
 
 ~~~
- 240 NENE02018B.txt
- 300 NENE01729A.txt
- 300 NENE01729B.txt
- 300 NENE01736A.txt
- 300 NENE01751A.txt
+3 1
 ~~~
-{: .output}
 
-Whoops: one of the files is 60 lines shorter than the others.
-When she goes back and checks it,
-she sees that she did that assay at 8:00 on a Monday morning --- someone
-was probably in using the machine on the weekend,
-and she forgot to reset it.
-Before re-running that sample,
-she checks to see if any files have too much data:
+So to sort the first image dimensions from smallest to largest
 
 ~~~
-$ wc -l *.txt | sort -n | tail -n 5
+$ file *.jpg | awk -F"," '{print $8,$1 }' | sort -n
 ~~~
 {: .bash}
 
 ~~~
- 300 NENE02040B.txt
- 300 NENE02040Z.txt
- 300 NENE02043A.txt
- 300 NENE02043B.txt
-5040 total
+ 699x1000 1420.jpg: JPEG image data
+ 1000x678 1411.jpg: JPEG image data
+ 1000x679 1418.jpg: JPEG image data
+ 1000x680 1413.jpg: JPEG image data
+ 1000x684 1419.jpg: JPEG image data
+ 1000x692 1417.jpg: JPEG image data
+ 1000x696 1415.jpg: JPEG image data
+ 1000x697 1416.jpg: JPEG image data
+ 1000x700 1412.jpg: JPEG image data
+ 1000x704 1414.jpg: JPEG image data
 ~~~
 {: .output}
 
-Those numbers look good --- but what's that 'Z' doing there in the third-to-last line?
-All of her samples should be marked 'A' or 'B';
-by convention,
-her lab uses 'Z' to indicate samples with missing information.
-To find others like it, she does this:
-
-~~~
-$ ls *Z.txt
-~~~
-{: .bash}
-
-~~~
-NENE01971Z.txt    NENE02040Z.txt
-~~~
-{: .output}
-
-Sure enough,
-when she checks the log on her laptop,
-there's no depth recorded for either of those samples.
-Since it's too late to get the information any other way,
-she must exclude those two files from her analysis.
-She could just delete them using `rm`,
-but there are actually some analyses she might do later where depth doesn't matter,
-so instead, she'll just be careful later on to select files using the wildcard expression `*[AB].txt`.
-As always,
-the `*` matches any number of characters;
-the expression `[AB]` matches either an 'A' or a 'B',
-so this matches all the valid data files she has.
-
-> ## What Does `sort -n` Do?
+> ## Extension Challenge
 >
-> If we run `sort` on this file:
->
-> ~~~
-> 10
-> 2
-> 19
-> 22
-> 6
-> ~~~
-> {: .source}
->
-> the output is:
->
-> ~~~
-> 10
-> 19
-> 2
-> 22
-> 6
-> ~~~
-> {: .output}
->
-> If we run `sort -n` on the same input, we get this instead:
->
-> ~~~
-> 2
-> 6
-> 10
-> 19
-> 22
-> ~~~
-> {: .output}
->
-> Explain why `-n` has this effect.
+> Use the commands above to sort on the second dimension
 >
 > > ## Solution
-> > The `-n` flag specifies a numeric sort, rather than alphabetical.
-> {: .solution}
-{: .challenge}
-
-> ## What Does `<` Mean?
->
-> Change directory to `data-shell` (the top level of our downloaded example data).
->
-> What is the difference between:
->
-> ~~~
-> $ wc -l notes.txt
-> ~~~
-> {: .bash}
->
-> and:
->
-> ~~~
-> $ wc -l < notes.txt
-> ~~~
-> {: .bash}
->
-> > ## Solution
-> > `<` is used to redirect input to a command. 
-> >
-> > In both examples, the shell returns the number of lines from the input to
-> > the `wc` command.
-> > In the first example, the input is a the file `notes.txt` and the file name is
-> > given in the output from the `wc` command.
-> > In the second example, the contents of the file `notes.txt` are redirected to
-> > standard input.
-> > It is as if we have entered the contents of the file by typing at the prompt.
-> > Hence the file name is not given in the output - just the number of lines.
-> > Try this for yourself:
-> >
-> > ```
-> > $ wc -l
-> > this
-> > is
-> > a test
-> > Ctrl-D # This lets the shell know you have finished typing the input
-> > ```
-> > {: .bash}
-> >
-> > ```
-> > 3
-> > ```
-> > {: .output}
+> > file *.jpg | awk -F"," '{print $8,$1 }' | awk -F"x" '{print $2,$1 }' | sort -n
 > {: .solution}
 {: .challenge}
 
@@ -695,66 +594,6 @@ so this matches all the valid data files she has.
 > {: .solution}
 {: .challenge}
 
-> ## Pipe Reading Comprehension
->
-> A file called `animals.txt` (in the `data-shell/data` folder) contains the following data:
->
-> ~~~
-> 2012-11-05,deer
-> 2012-11-05,rabbit
-> 2012-11-05,raccoon
-> 2012-11-06,rabbit
-> 2012-11-06,deer
-> 2012-11-06,fox
-> 2012-11-07,rabbit
-> 2012-11-07,bear
-> ~~~
-> {: .source}
->
-> What text passes through each of the pipes and the final redirect in the pipeline below?
->
-> ~~~
-> $ cat animals.txt | head -n 5 | tail -n 3 | sort -r > final.txt
-> ~~~
-> {: .bash}
-> Hint: build the pipeline up one command at a time to test your understanding
-{: .challenge}
-
-> ## Pipe Construction
->
-> For the file `animals.txt` from the previous exercise, the command:
->
-> ~~~
-> $ cut -d , -f 2 animals.txt
-> ~~~
-> {: .bash}
->
-> produces the following output:
->
-> ~~~
-> deer
-> rabbit
-> raccoon
-> rabbit
-> deer
-> fox
-> rabbit
-> bear
-> ~~~
-> {: .output}
->
-> What other command(s) could be added to this in a pipeline to find
-> out what animals the file contains (without any duplicates in their
-> names)?
->
-> > ## Solution
-> > ```
-> > $ cut -d , -f 2 animals.txt | sort | uniq
-> > ```
-> > {: .bash}
-> {: .solution}
-{: .challenge}
-
 > ## Removing Unneeded Files
 >
 > Suppose you want to delete your processed data files, and only keep
@@ -816,7 +655,7 @@ so this matches all the valid data files she has.
 
 > ## Which Pipe?
 >
-> The file `data-shell/data/animals.txt` contains 586 lines of data formatted as follows:
+> The file contains 586 lines of data formatted as follows:
 >
 > ~~~
 > 2012-11-05,deer
@@ -845,24 +684,3 @@ so this matches all the valid data files she has.
 > {: .solution}
 {: .challenge}
 
-> ## Appending Data
->
-> Consider the file `animals.txt`, used in previous exercise.
-> After these commands, select the answer that
-> corresponds to the file `animalsUpd.txt`:
->
-> ~~~
-> $ head -3 animals.txt > animalsUpd.txt
-> $ tail -2 animals.txt >> animalsUpd.txt
-> ~~~
-> {: .bash}
->
-> 1. The first three lines of `animals.txt`
-> 2. The last two lines of `animals.txt`
-> 3. The first three lines and the last two lines of `animals.txt`
-> 4. The second and third lines of `animals.txt`
->
-> > ## Solution
-> > 3.
-> {: .solution}
-{: .challenge}

@@ -405,13 +405,13 @@ $ ls -F Desktop
 {: .bash}
 
 ~~~
-data-shell/
+Humanities_Data/
 ~~~
 {: .output}
 
 Your output should be a list of all the files and sub-directories on your
-Desktop, including the `data-shell` directory you downloaded at
-the start of the lesson.  Take a look at your Desktop to confirm that
+Desktop, including the `Humanities_Data` directory you downloaded at
+the start of the workshop.  Take a look at your Desktop to confirm that
 your output is accurate.  
 
 As you may now see, using a bash shell is strongly dependent on the idea that
@@ -421,20 +421,20 @@ it's possible to put hundreds of files in our home directory,
 just as it's possible to pile hundreds of printed papers on our desk,
 but it's a self-defeating strategy.
 
-Now that we know the `data-shell` directory is located on our Desktop, we
+Now that we know the `Humanities_Data` directory is located on our Desktop, we
 can do two things.  
 
 First, we can look at its contents, using the same strategy as before, passing
 a directory name to `ls`:
 
 ~~~
-$ ls -F Desktop/data-shell
+$ ls -F Desktop/Humanities_Data
 ~~~
 {: .bash}
 
 ~~~
-creatures/          molecules/          notes.txt           solar.pdf
-data/               north-pacific-gyre/ pizza.cfg           writing/
+cushman_encoded.csv         photos
+survey_data_humanities_cleaned.csv  survey_data_humanities_messy.xls
 ~~~
 {: .output}
 
@@ -449,22 +449,22 @@ which is a bit misleading:
 the command doesn't change the directory,
 it changes the shell's idea of what directory we are in.
 
-Let's say we want to move to the `data` directory we saw above.  We can
+Let's say we want to move to the `photos` directory we saw above.  We can
 use the following series of commands to get there:
 
 ~~~
 $ cd Desktop
-$ cd data-shell
-$ cd data
+$ cd humanities_data
+$ cd photos
 ~~~
 {: .bash}
 
 These commands will move us from our home directory onto our Desktop, then into
-the `data-shell` directory, then into the `data` directory.  `cd` doesn't print anything,
+the `humanities_data` directory, then into the `photos` directory.  `cd` doesn't print anything,
 but if we run `pwd` after it, we can see that we are now
-in `/Users/nelle/Desktop/data-shell/data`.
+in `/Users/nelle/Desktop/humanities_data/photos`.
 If we run `ls` without arguments now,
-it lists the contents of `/Users/nelle/Desktop/data-shell/data`,
+it lists the contents of `/Users/nelle/Desktop/humanities_data/photos`,
 because that's where we now are:
 
 ~~~
@@ -473,7 +473,7 @@ $ pwd
 {: .bash}
 
 ~~~
-/Users/nelle/Desktop/data-shell/data
+/Users/nelle/Desktop/humanities_data/photos
 ~~~
 {: .output}
 
@@ -483,8 +483,8 @@ $ ls -F
 {: .bash}
 
 ~~~
-amino-acids.txt   elements/     pdb/	        salmon.txt
-animals.txt       morse.txt     planets.txt     sunspot.txt
+1411.jpg    1412.jpg    1413.jpg    1414.jpg    1415.jpg    1416.jpg
+1417.jpg    1418.jpg    1419.jpg    1420.jpg
 ~~~
 {: .output}
 
@@ -492,12 +492,12 @@ We now know how to go down the directory tree, but
 how do we go up?  We might try the following:
 
 ~~~
-cd data-shell
+cd humanities_data
 ~~~
 {: .bash}
 
 ~~~
--bash: cd: data-shell: No such file or directory
+-bash: cd: humanities_data: No such file or directory
 ~~~
 {: .error}
 
@@ -521,7 +521,8 @@ $ cd ..
 or more succinctly,
 the **parent** of the current directory.
 Sure enough,
-if we run `pwd` after running `cd ..`, we're back in `/Users/nelle/Desktop/data-shell`:
+if we run `pwd` after running `cd ..`, we're back in
+`/Users/nelle/Desktop/humanities_data`:
 
 ~~~
 $ pwd
@@ -529,7 +530,7 @@ $ pwd
 {: .bash}
 
 ~~~
-/Users/nelle/Desktop/data-shell
+/Users/nelle/Desktop/humanities_data
 ~~~
 {: .output}
 
@@ -542,10 +543,8 @@ $ ls -F -a
 {: .bash}
 
 ~~~
-./                  creatures/          notes.txt
-../                 data/               pizza.cfg
-.bash_profile       molecules/          solar.pdf
-Desktop/            north-pacific-gyre/ writing/
+.       ..      1411.jpg    1412.jpg    1413.jpg    1414.jpg    1415.jpg
+1416.jpg    1417.jpg    1418.jpg    1419.jpg    1420.jpg
 ~~~
 {: .output}
 
@@ -578,7 +577,7 @@ equivalent to `ls -Fa`.
 > The special names `.` and `..` don't belong to `cd`;
 > they are interpreted the same way by every program.
 > For example,
-> if we are in `/Users/nelle/data`,
+> if we are in `/Users/nelle/humanities_data`,
 > the command `ls ..` will give us a listing of `/Users/nelle`.
 > When the meanings of the parts are the same no matter how they're combined,
 > programmers say they are **orthogonal**:
@@ -611,12 +610,12 @@ $ pwd
 It turns out that `cd` without an argument will return you to your home directory,
 which is great if you've gotten lost in your own filesystem.  
 
-Let's try returning to the `data` directory from before.  Last time, we used
+Let's try returning to the `photos` directory from before.  Last time, we used
 three commands, but we can actually string together the list of directories
-to move to `data` in one step:
+to move to `photos` in one step:
 
 ~~~
-$ cd Desktop/data-shell/data
+$ cd Desktop/humanities_data/photos
 ~~~
 {: .bash}
 
@@ -637,10 +636,10 @@ leading slash.  The leading `/` tells the computer to follow the path from
 the root of the file system, so it always refers to exactly one directory,
 no matter where we are when we run the command.
 
-This allows us to move to our `data-shell` directory from anywhere on
-the filesystem (including from inside `data`).  To find the absolute path
+This allows us to move to our `humanities_data` directory from anywhere on
+the filesystem (including from inside `photos`).  To find the absolute path
 we're looking for, we can use `pwd` and then extract the piece we need
-to move to `data-shell`.  
+to move to `humanities_data`.  
 
 ~~~
 $ pwd
@@ -648,12 +647,12 @@ $ pwd
 {: .bash}
 
 ~~~
-/Users/nelle/Desktop/data-shell/data
+/Users/nelle/Desktop/humanities_data/photos
 ~~~
 {: .output}
 
 ~~~
-$ cd /Users/nelle/Desktop/data-shell
+$ cd /Users/nelle/Desktop/humanities_data
 ~~~
 {: .bash}
 
@@ -674,78 +673,6 @@ Run `pwd` and `ls -F` to ensure that we're in the directory we expect.
 > that the former brings you *up*, while the latter brings you *back*. You can
 > think of it as the *Last Channel* button on a TV remote.
 {: .callout}
-
-### Nelle's Pipeline: Organizing Files
-
-Knowing just this much about files and directories,
-Nelle is ready to organize the files that the protein assay machine will create.
-First,
-she creates a directory called `north-pacific-gyre`
-(to remind herself where the data came from).
-Inside that,
-she creates a directory called `2012-07-03`,
-which is the date she started processing the samples.
-She used to use names like `conference-paper` and `revised-results`,
-but she found them hard to understand after a couple of years.
-(The final straw was when she found herself creating
-a directory called `revised-revised-results-3`.)
-
-> ## Sorting Output
->
-> Nelle names her directories "year-month-day",
-> with leading zeroes for months and days,
-> because the shell displays file and directory names in alphabetical order.
-> If she used month names,
-> December would come before July;
-> if she didn't use leading zeroes,
-> November ('11') would come before July ('7'). Similarly, putting the year first
-> means that June 2012 will come before June 2013.
-{: .callout}
-
-Each of her physical samples is labelled according to her lab's convention
-with a unique ten-character ID,
-such as "NENE01729A".
-This is what she used in her collection log
-to record the location, time, depth, and other characteristics of the sample,
-so she decides to use it as part of each data file's name.
-Since the assay machine's output is plain text,
-she will call her files `NENE01729A.txt`, `NENE01812A.txt`, and so on.
-All 1520 files will go into the same directory.
-
-Now in her current directory `data-shell`,
-Nelle can see what files she has using the command:
-
-~~~
-$ ls north-pacific-gyre/2012-07-03/
-~~~
-{: .bash}
-
-This is a lot to type,
-but she can let the shell do most of the work through what is called **tab completion**.
-If she types:
-
-~~~
-$ ls nor
-~~~
-{: .bash}
-
-and then presses tab (the tab key on her keyboard),
-the shell automatically completes the directory name for her:
-
-~~~
-$ ls north-pacific-gyre/
-~~~
-{: .bash}
-
-If she presses tab again,
-Bash will add `2012-07-03/` to the command,
-since it's the only possible completion.
-Pressing tab again does nothing,
-since there are 19 possibilities;
-pressing tab twice brings up a list of all the files,
-and so on.
-This is called **tab completion**,
-and we will see it in many other tools as we go on.
 
 > ## Absolute vs Relative Paths
 >

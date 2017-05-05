@@ -25,36 +25,35 @@ keypoints:
 **Loops** are key to productivity improvements through automation as they allow us to execute
 commands repetitively. Similar to wildcards and tab completion, using loops also reduces the
 amount of typing (and typing mistakes).
-Suppose we have several hundred genome data files named `basilisk.dat`, `unicorn.dat`, and so on.
-In this example,
-we'll use the `creatures` directory which only has two example files,
-but the principles can be applied to many many more files at once.
+
+Let's do something on all the images.
+
 We would like to modify these files, but also save a version of the original files, naming the copies
-`original-basilisk.dat` and `original-unicorn.dat`.
+`original-1411.jpg` and so on.
 We can't use:
 
 ~~~
-$ cp *.dat original-*.dat
+$ cp *.jpg original-*.jpg
 ~~~
 {: .bash}
 
 because that would expand to:
 
 ~~~
-$ cp basilisk.dat unicorn.dat original-*.dat
+$ cp 1141.dat 1142.dat original-*.jpg
 ~~~
 {: .bash}
 
 This wouldn't back up our files, instead we get an error:
 
 ~~~
-cp: target `original-*.dat' is not a directory
+cp: target `original-*.jpg' is not a directory
 ~~~
 {: .error}
 
 This problem arises when `cp` receives more than two inputs. When this happens, it
 expects the last input to be a directory where it can copy all the files it was passed.
-Since there is no directory named `original-*.dat` in the `creatures` directory we get an
+Since there is no directory named `original-*.jpg` in the `pictures` directory we get an
 error.
 
 Instead, we can use a **loop**
@@ -62,22 +61,12 @@ to do some operation once for each thing in a list.
 Here's a simple example that displays the first three lines of each file in turn:
 
 ~~~
-$ for filename in basilisk.dat unicorn.dat
+$ for filename in 1411.jpg 1412.jpg
 > do
->    head -n 3 $filename
+>    echo $filename
 > done
 ~~~
 {: .bash}
-
-~~~
-COMMON NAME: basilisk
-CLASSIFICATION: basiliscus vulgaris
-UPDATED: 1745-05-02
-COMMON NAME: unicorn
-CLASSIFICATION: equus monoceros
-UPDATED: 1738-11-24
-~~~
-{: .output}
 
 When the shell sees the keyword `for`,
 it knows to repeat a command (or group of commands) once for each thing `in` a list.
@@ -91,17 +80,16 @@ The `$` tells the shell interpreter to treat
 the **variable** as a variable name and substitute its value in its place,
 rather than treat it as text or an external command. 
 
-In this example, the list is two filenames: `basilisk.dat` and `unicorn.dat`.
+In this example, the list is two filenames: `1411.jpg` and `1412.jpg`.
 Each time the loop iterates, it will assign a file name to the variable `filename`
 and run the `head` command.
 The first time through the loop,
-`$filename` is `basilisk.dat`. 
-The interpreter runs the command `head` on `basilisk.dat`, 
-and the prints the 
-first three lines of `basilisk.dat`.
+`$filename` is `1141.jpg`. 
+The interpreter runs the command `echo` on `1141.jpg`, 
+and the prints the string `1141.jpg`.
 For the second iteration, `$filename` becomes 
-`unicorn.dat`. This time, the shell runs `head` on `unicorn.dat`
-and prints the first three lines of `unicorn.dat`. 
+`1142.jpg`. This time, the shell runs `echo` on `1142.jpg`
+and prints `1142.jpg`. 
 Since the list was only two items, the shell exits the `for` loop.
 
 When using variables it is also
@@ -137,9 +125,9 @@ The shell itself doesn't care what the variable is called;
 if we wrote this loop as:
 
 ~~~
-for x in basilisk.dat unicorn.dat
+for x in 1141.jpg 1142.jpg
 do
-    head -n 3 $x
+    echo $x
 done
 ~~~
 {: .bash}
@@ -147,9 +135,9 @@ done
 or:
 
 ~~~
-for temperature in basilisk.dat unicorn.dat
+for temperature in 1141.jpg 1142.jpg
 do
-    head -n 3 $temperature
+    echo $temperature
 done
 ~~~
 {: .bash}
@@ -159,56 +147,6 @@ it would work exactly the same way.
 Programs are only useful if people can understand them,
 so meaningless names (like `x`) or misleading names (like `temperature`)
 increase the odds that the program won't do what its readers think it does.
-
-Here's a slightly more complicated loop:
-
-~~~
-for filename in *.dat
-do
-    echo $filename
-    head -n 100 $filename | tail -n 20
-done
-~~~
-{: .bash}
-
-The shell starts by expanding `*.dat` to create the list of files it will process.
-The **loop body**
-then executes two commands for each of those files.
-The first, `echo`, just prints its command-line parameters to standard output.
-For example:
-
-~~~
-$ echo hello there
-~~~
-{: .bash}
-
-prints:
-
-~~~
-hello there
-~~~
-{: .output}
-
-In this case,
-since the shell expands `$filename` to be the name of a file,
-`echo $filename` just prints the name of the file.
-Note that we can't write this as:
-
-~~~
-for filename in *.dat
-do
-    $filename
-    head -n 100 $filename | tail -n 20
-done
-~~~
-{: .bash}
-
-because then the first time through the loop,
-when `$filename` expanded to `basilisk.dat`, the shell would try to run `basilisk.dat` as a program.
-Finally,
-the `head` and `tail` combination selects lines 81-100
-from whatever file is being processed
-(assuming the file has at least 100 lines).
 
 > ## Spaces in Names
 >
@@ -241,7 +179,7 @@ Going back to our original file copying problem,
 we can solve it using this loop:
 
 ~~~
-for filename in *.dat
+for filename in *.jpg
 do
     cp $filename original-$filename
 done
@@ -250,18 +188,18 @@ done
 
 This loop runs the `cp` command once for each filename.
 The first time,
-when `$filename` expands to `basilisk.dat`,
+when `$filename` expands to `1141.jpg`,
 the shell executes:
 
 ~~~
-cp basilisk.dat original-basilisk.dat
+cp 1141.jpg original-1141.jpg
 ~~~
 {: .bash}
 
 The second time, the command is:
 
 ~~~
-cp unicorn.dat original-unicorn.dat
+cp 1142.jpg original-1142.jpg
 ~~~
 {: .bash}
 
@@ -279,51 +217,31 @@ Nelle is now ready to process her data files.
 Since she's still learning how to use the shell,
 she decides to build up the required commands in stages.
 Her first step is to make sure that she can select the right files --- remember,
-these are ones whose names end in 'A' or 'B', rather than 'Z'. Starting from her home directory, Nelle types:
+these are ones whose names end in 'G' or 'N', rather than 'X'. Starting from her home directory, Nelle types:
 
 ~~~
-$ cd north-pacific-gyre/2012-07-03
-$ for datafile in *[AB].txt
+$ cd photos/19
+$ for datafile in *[GN].jpg
 > do
 >     echo $datafile
 > done
 ~~~
 {: .bash}
 
-~~~
-NENE01729A.txt
-NENE01729B.txt
-NENE01736A.txt
-...
-NENE02043A.txt
-NENE02043B.txt
-~~~
-{: .output}
-
 Her next step is to decide
-what to call the files that the `goostats` analysis program will create.
+what to call the files that the `imagestats` analysis program will create.
 Prefixing each input file's name with "stats" seems simple,
 so she modifies her loop to do that:
 
 ~~~
-$ for datafile in *[AB].txt
+$ for datafile in *[GN].jpg
 > do
->     echo $datafile stats-$datafile
+>     echo $datafile stats-$datafile.txt
 > done
 ~~~
 {: .bash}
 
-~~~
-NENE01729A.txt stats-NENE01729A.txt
-NENE01729B.txt stats-NENE01729B.txt
-NENE01736A.txt stats-NENE01736A.txt
-...
-NENE02043A.txt stats-NENE02043A.txt
-NENE02043B.txt stats-NENE02043B.txt
-~~~
-{: .output}
-
-She hasn't actually run `goostats` yet,
+She hasn't actually run `imagestats` yet,
 but now she's sure she can select the right files and generate the right output filenames.
 
 Typing in commands over and over again is becoming tedious,
@@ -336,15 +254,15 @@ the shell redisplays the whole loop on one line
 (using semi-colons to separate the pieces):
 
 ~~~
-$ for datafile in *[AB].txt; do echo $datafile stats-$datafile; done
+$ for datafile in *[GN].jpg; do echo $datafile stats-$datafile.txt; done
 ~~~
 {: .bash}
 
 Using the left arrow key,
-Nelle backs up and changes the command `echo` to `bash goostats`:
+Nelle backs up and changes the command `echo` to `bash imagestats`:
 
 ~~~
-$ for datafile in *[AB].txt; do bash goostats $datafile stats-$datafile; done
+$ for datafile in *[GN].jpg; do bash imagestats $datafile stats-$datafile.txt; done
 ~~~
 {: .bash}
 
@@ -358,7 +276,7 @@ uses up-arrow to repeat the command,
 and edits it to read:
 
 ~~~
-$ for datafile in *[AB].txt; do echo $datafile; bash goostats $datafile stats-$datafile; done
+$ for datafile in *[GN].txt; do echo $datafile; bash imagestats $datafile stats-$datafile; done
 ~~~
 {: .bash}
 
@@ -370,14 +288,6 @@ $ for datafile in *[AB].txt; do echo $datafile; bash goostats $datafile stats-$d
 
 When she runs her program now,
 it produces one line of output every five seconds or so:
-
-~~~
-NENE01729A.txt
-NENE01729B.txt
-NENE01736A.txt
-...
-~~~
-{: .output}
 
 1518 times 5 seconds,
 divided by 60,
@@ -404,13 +314,13 @@ so she decides to get some coffee and catch up on her reading.
 > ~~~
 >   456  ls -l NENE0*.txt
 >   457  rm stats-NENE01729B.txt.txt
->   458  bash goostats NENE01729B.txt stats-NENE01729B.txt
+>   458  bash imagestats NENE01729B.txt stats-NENE01729B.txt
 >   459  ls -l NENE0*.txt
 >   460  history
 > ~~~
 > {: .output}
 >
-> then she can re-run `goostats` on `NENE01729B.txt` simply by typing
+> then she can re-run `imagestats` on `NENE01729B.txt` simply by typing
 > `!458`.
 {: .callout}
 
@@ -425,7 +335,7 @@ so she decides to get some coffee and catch up on her reading.
 > (you may or may not find this more convenient than using the up-arrow)
 > - `!$` retrieves the last word of the  last command.
 > That's useful more often than you might expect: after
-> `bash goostats NENE01729B.txt stats-NENE01729B.txt`, you can type
+> `bash imagestats NENE01729B.txt stats-NENE01729B.txt`, you can type
 > `less !$` to look at the file `stats-NENE01729B.txt`, which is
 > quicker than doing up-arrow and editing the command-line.
 {: .callout}
