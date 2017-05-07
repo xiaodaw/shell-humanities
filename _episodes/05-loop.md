@@ -213,6 +213,18 @@ judicious use of `echo` is a good debugging technique.
 
 ## Nelle's Pipeline: Processing Files
 
+Add additonal metadata to the file names more descriptive.
+Let's say we're interested in catagorizing the images by whether
+they were origionally mounted in a glass enclosure.  This
+is noted in the slide condition field.  We'll add the letter 'G' to slides that had the enclosuer
+and 'N' if they did not.  We'll use 'X' instead if there was uneven dye fading.
+1411,1143,1148,1149 get G
+1142 gets X
+Everything else gets N
+
+There is probably a more efficient strategy - but
+start mby appending N to all files with.  Then manually change the others to G and X.
+
 Nelle is now ready to process her data files.
 Since she's still learning how to use the shell,
 she decides to build up the required commands in stages.
