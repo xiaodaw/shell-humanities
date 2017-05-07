@@ -225,6 +225,15 @@ Everything else gets N
 There is probably a more efficient strategy - but
 start mby appending N to all files with.  Then manually change the others to G and X.
 
+Check that imagestats is present in your directory.  If not, open a test editor and type
+
+~~~
+nano imagestats
+
+echo $1 > $2
+~~~
+{: .bash}
+
 Nelle is now ready to process her data files.
 Since she's still learning how to use the shell,
 she decides to build up the required commands in stages.
@@ -305,9 +314,8 @@ it produces one line of output every five seconds or so:
 divided by 60,
 tells her that her script will take about two hours to run.
 As a final check,
-she opens another terminal window,
-goes into `north-pacific-gyre/2012-07-03`,
-and uses `cat stats-NENE01729B.txt`
+she opens another terminal window
+and uses `cat`
 to examine one of the output files.
 It looks good,
 so she decides to get some coffee and catch up on her reading.
