@@ -475,17 +475,6 @@ Each of the photos is labelled according to its archival ID number
 that was assigned when the images were processed,
 such as "1411". Move the appropriate images into the date directory.
 
-Add additonal metadata to the file names more descriptive.
-Let's say we're interested in catagorizing the images by whether
-they were origionally mounted in a glass enclosure.  This
-is noted in the slide condition field.  You would want to automate 
-this labeling if you were actually doing this, but mor now we're going to
-be doing it by hand.  We'll add the letter 'G' to slides that had the enclosuer
-and 'N' if they did not.  We'll use 'X' instead if there was uneven dye fading.
-1411,1143,1148,1149 get G
-1142 gets X
-Everything else gets N
-
 Now in her current directory `data-humanities`,
 Nelle can see what files she has using the command:
 
